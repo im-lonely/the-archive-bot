@@ -9,7 +9,7 @@ module.exports = {
   aliases: ["fetch", "gettag", "fetchtag"],
   usage: "<name>",
   cooldown: 1,
-  async execute(message, args, client, commandArgs, Tags) {
+  async execute(message, args, client, commandArgs, Tags, currency) {
     const tagName = commandArgs;
 
     if (!tagName) message.channel.send("No tag was presented!");
@@ -17,7 +17,7 @@ module.exports = {
     const tag = await Tags.findOne({ where: { name: tagName } });
 
     if (tag) {
-      tag.increment("usageCount");
+      tag.increment("usage_count");
       return message.channel.send(tag.get("description"));
     }
 

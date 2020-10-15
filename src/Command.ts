@@ -13,6 +13,7 @@ export type Command = {
     args: Array<string>,
     client: Discord.Client,
     commandArgs: string,
-    Tags: any
+    Tags: any,
+    currency: any
   ): any;
 };

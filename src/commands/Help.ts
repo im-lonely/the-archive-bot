@@ -8,7 +8,7 @@ module.exports = {
   guildOnly: false,
   aliases: ["assist"],
   cooldown: 0,
-  execute(message, args, client, commandArgs, Tags) {
+  execute(message, args, client, commandArgs, Tags, currency) {
     const helpEmbed = new Discord.MessageEmbed()
       .setTitle("Help")
       .setFooter("by [Cursors]#9257")

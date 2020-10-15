@@ -9,7 +9,7 @@ module.exports = {
   aliases: ["change", "edittag", "changetag"],
   usage: "<name> <content>",
   cooldown: 1,
-  async execute(message, args, client, commandArgs, Tags) {
+  async execute(message, args, client, commandArgs, Tags, currency) {
     const splitArgs = commandArgs.split(" ");
     const tagName = splitArgs.shift();
     const tagDescription = splitArgs.join(" ");
@@ -29,6 +29,7 @@ module.exports = {
     if (affectedRows > 0) {
       return message.channel.send(`Tag \`${tagName}\` was edited.`);
     }
+
     return message.channel.send(
       `Could not find a tag with name \`${tagName}\`.`
     );

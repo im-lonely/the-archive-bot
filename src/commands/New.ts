@@ -4,12 +4,12 @@ import { Command } from "../Command";
 module.exports = {
   name: "new",
   description: "Create a new tag.",
-  argsRequired: false,
+  argsRequired: true,
   guildOnly: false,
   aliases: ["create", "newtag", "createtag"],
   usage: "<name> <content>",
   cooldown: 1,
-  async execute(message, args, client, commandArgs, Tags) {
+  async execute(message, args, client, commandArgs, Tags, currency) {
     const splitArgs = commandArgs.split(" ");
     const tagName = splitArgs.shift();
     const tagDescription = splitArgs.join(" ");
@@ -24,7 +24,7 @@ module.exports = {
         name: tagName,
         description: tagDescription,
         username: message.author.username,
-        id: message.author.id,
+        user_id: message.author.id,
       });
       return message.channel.send(`Tag \`${tag.name}\` added.`);
     } catch (e) {

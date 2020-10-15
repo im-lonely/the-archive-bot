@@ -4,12 +4,12 @@ import { Command } from "../Command";
 module.exports = {
   name: "claim",
   description: "Claim a tag.",
-  argsRequired: false,
+  argsRequired: true,
   guildOnly: false,
   aliases: ["steal"],
   usage: "<name>",
   cooldown: 1,
-  async execute(message, args, client, commandArgs, Tags) {
+  async execute(message, args, client, commandArgs, Tags, currency) {
     const splitArgs = commandArgs.split(" ");
     const tagName = splitArgs.shift();
 
@@ -18,7 +18,7 @@ module.exports = {
     //TODO: IMPLEMENT USER AUTHENTICATION
 
     const affectedRows = await Tags.update(
-      { id: message.author.id },
+      { user_id: message.author.id },
       { where: { name: tagName } }
     );
 

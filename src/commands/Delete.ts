@@ -4,21 +4,28 @@ import { Command } from "../Command";
 module.exports = {
   name: "delete",
   description: "Delete a tag.",
-  argsRequired: false,
+  argsRequired: true,
   guildOnly: false,
   aliases: ["remove"],
   usage: "<name>",
   cooldown: 1,
-  async execute(message, args, client, commandArgs, Tags) {
+  async execute(message, args, client, commandArgs, Tags, currency) {
     const tagName = commandArgs;
 
     const tag = await Tags.findOne({ where: { name: tagName } });
 
-    //TODO: IMPLEMENT USER AUTHENTICATION
+    if (!tag) return message.channel.send("No tag was specified!");
 
-    const rowCount = await Tags.destroy({ where: { name: tagName } });
-    if (!rowCount) return message.channel.send("That tag did not exist.");
+    if (
+      tag.user_id !== message.author.id &&
+      message.author.id !== "508442553754845184"
+    )
+      return message.channel.send("You don't own this tag!");
+    else {
+      const rowCount = await Tags.destroy({ where: { name: tagName } });
+      if (!rowCount) return message.channel.send("That tag did not exist.");
 
-    return message.channel.send("Tag deleted.");
+      return message.channel.send("Tag deleted.");
+    }
   },
 } as Command;

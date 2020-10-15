@@ -1,13 +1,16 @@
 const fs = require("fs");
 import Discord = require("discord.js");
 import { Command } from "./Command";
-const Sequelize = require("sequelize");
+import Sequelize = require("sequelize");
 const { prefix, token } = require("./config.json");
 const client: Discord.Client & any = new Discord.Client();
 client.commands = new Discord.Collection<string, Command>();
 const cooldowns = new Discord.Collection();
+const { Users, CurrencyShop } = require("./dbObjects");
+const { Op } = require("sequelize");
+const currency = new Discord.Collection<any, any>();
 
-const sequelize = new Sequelize("database", "user", "password", {
+const sequelize = new Sequelize.Sequelize("database", "user", "password", {
   host: "localhost",
   dialect: "sqlite",
   logging: false,
@@ -21,11 +24,31 @@ const Tags = sequelize.define("tags", {
   },
   description: Sequelize.TEXT,
   username: Sequelize.STRING,
-  id: Sequelize.STRING,
-  usageCount: {
+  user_id: Sequelize.STRING,
+  usage_count: {
     type: Sequelize.INTEGER,
     defaultValue: 0,
     allowNull: false,
+  },
+});
+
+Reflect.defineProperty(currency, "add", {
+  value: async function add(id: any, amount: any) {
+    const user = currency.get(id);
+    if (user) {
+      user.balance += Number(amount);
+      return user.save();
+    }
+    const newUser = await Users.create({ user_id: id, balance: amount });
+    currency.set(id, newUser);
+    return newUser;
+  },
+});
+
+Reflect.defineProperty(currency, "getBalance", {
+  value: function getBalance(id: any) {
+    const user = currency.get(id);
+    return user ? user.balance : 0;
   },
 });
 
@@ -38,15 +61,20 @@ for (const file of commandFiles) {
   client.commands.set(command.name, command);
 }
 
-client.once("ready", () => {
+client.once("ready", async () => {
   console.log("Ready!");
   client.user.setStatus("online");
   client.user.setActivity(` for ${prefix}help`, { type: "WATCHING" });
+  const storedBalances = await Users.findAll();
+  storedBalances.forEach((b: { user_id: any }) => currency.set(b.user_id, b));
   Tags.sync();
 });
 
 client.on("message", async (message: Discord.Message) => {
   if (!message.content.startsWith(prefix) || message.author.bot) return;
+
+  //@ts-ignore
+  currency.add(message.author.id, 1);
 
   const input: Array<string> = message.content
     .slice(prefix.length)
@@ -104,7 +132,7 @@ client.on("message", async (message: Discord.Message) => {
   }
 
   try {
-    command.execute(message, input, client, commandArgs, Tags);
+    command.execute(message, input, client, commandArgs, Tags, currency);
   } catch (error) {
     console.error(error);
     message.channel.send(`Oops! Something went wrong with ${command.name}!`);
