@@ -2,33 +2,30 @@ import Discord = require("discord.js");
 import { Command } from "../Command";
 
 module.exports = {
-  name: "edit",
-  description: "Edit a tag.",
+  name: "claim",
+  description: "Claim a tag.",
   argsRequired: false,
   guildOnly: false,
-  aliases: ["change", "edittag", "changetag"],
-  usage: "<name> <content>",
+  aliases: ["steal"],
+  usage: "<name>",
   cooldown: 1,
   async execute(message, args, client, commandArgs, Tags) {
     const splitArgs = commandArgs.split(" ");
     const tagName = splitArgs.shift();
-    const tagDescription = splitArgs.join(" ");
 
     if (!tagName) return message.channel.send("No tag name present!");
-
-    if (!tagDescription)
-      return message.channel.send("No edited content was specified!");
 
     //TODO: IMPLEMENT USER AUTHENTICATION
 
     const affectedRows = await Tags.update(
-      { description: tagDescription },
+      { id: message.author.id },
       { where: { name: tagName } }
     );
 
     if (affectedRows > 0) {
-      return message.channel.send(`Tag \`${tagName}\` was edited.`);
+      return message.channel.send(`Tag \`${tagName}\` was claimed by you.`);
     }
+
     return message.channel.send(
       `Could not find a tag with name \`${tagName}\`.`
     );

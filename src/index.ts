@@ -21,6 +21,7 @@ const Tags = sequelize.define("tags", {
   },
   description: Sequelize.TEXT,
   username: Sequelize.STRING,
+  id: Sequelize.STRING,
   usageCount: {
     type: Sequelize.INTEGER,
     defaultValue: 0,

@@ -11,6 +11,11 @@ module.exports = {
   cooldown: 1,
   async execute(message, args, client, commandArgs, Tags) {
     const tagName = commandArgs;
+
+    const tag = await Tags.findOne({ where: { name: tagName } });
+
+    //TODO: IMPLEMENT USER AUTHENTICATION
+
     const rowCount = await Tags.destroy({ where: { name: tagName } });
     if (!rowCount) return message.channel.send("That tag did not exist.");
 

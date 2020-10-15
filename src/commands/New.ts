@@ -24,6 +24,7 @@ module.exports = {
         name: tagName,
         description: tagDescription,
         username: message.author.username,
+        id: message.author.id,
       });
       return message.channel.send(`Tag \`${tag.name}\` added.`);
     } catch (e) {
