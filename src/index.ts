@@ -1,10 +1,32 @@
 const fs = require("fs");
 import Discord = require("discord.js");
 import { Command } from "./Command";
+const Sequelize = require("sequelize");
 const { prefix, token } = require("./config.json");
 const client: Discord.Client & any = new Discord.Client();
 client.commands = new Discord.Collection<string, Command>();
 const cooldowns = new Discord.Collection();
+
+const sequelize = new Sequelize("database", "user", "password", {
+  host: "localhost",
+  dialect: "sqlite",
+  logging: false,
+  storage: "database.sqlite",
+});
+
+const Tags = sequelize.define("tags", {
+  name: {
+    type: Sequelize.STRING,
+    unique: true,
+  },
+  description: Sequelize.TEXT,
+  username: Sequelize.STRING,
+  usageCount: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0,
+    allowNull: false,
+  },
+});
 
 const commandFiles: Array<File> = fs
   .readdirSync(__dirname + "/commands")
@@ -15,20 +37,24 @@ for (const file of commandFiles) {
   client.commands.set(command.name, command);
 }
 
-console.log(client.commands);
-
 client.once("ready", () => {
   console.log("Ready!");
+  client.user.setStatus("online");
+  client.user.setActivity(` for ${prefix}help`, { type: "WATCHING" });
+  Tags.sync();
 });
 
-client.on("message", (message: Discord.Message) => {
+client.on("message", async (message: Discord.Message) => {
   if (!message.content.startsWith(prefix) || message.author.bot) return;
 
-  const args: Array<string> = message.content
+  const input: Array<string> = message.content
     .slice(prefix.length)
     .trim()
     .split(/ +/);
-  const commandName = args.shift()!.toLowerCase();
+
+  const commandName = input.shift()!.toLowerCase();
+
+  const commandArgs = input.join(" ");
 
   const command: Command =
     client.commands.get(commandName) ||
@@ -38,7 +64,7 @@ client.on("message", (message: Discord.Message) => {
 
   if (!command) return;
 
-  if (command.argsRequired && !args.length) {
+  if (command.argsRequired && !input.length) {
     let reply = `No arguments were provided!`;
 
     if (command.usage) {
@@ -49,7 +75,7 @@ client.on("message", (message: Discord.Message) => {
   }
 
   if (command.guildOnly && message.channel.type === "dm") {
-    return message.reply(`${command.name} can only be used in a guild!`);
+    return message.channel.send(`${command.name} can only be used in a guild!`);
   }
 
   if (!cooldowns.has(command.name)) {
@@ -65,7 +91,7 @@ client.on("message", (message: Discord.Message) => {
 
     if (now < expirationTime) {
       const timeLeft = (expirationTime - now) / 1000;
-      return message.reply(
+      return message.channel.send(
         `Please wait ${timeLeft.toFixed(1)} more second(s) before using \`${
           command.name
         }\`.`
@@ -77,10 +103,10 @@ client.on("message", (message: Discord.Message) => {
   }
 
   try {
-    command.execute(message, args, client);
+    command.execute(message, input, client, commandArgs, Tags);
   } catch (error) {
     console.error(error);
-    message.reply(`Oops! Something went wrong with ${command.name}!`);
+    message.channel.send(`Oops! Something went wrong with ${command.name}!`);
   }
 });
 

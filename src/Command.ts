@@ -11,6 +11,8 @@ export type Command = {
   execute(
     message: Discord.Message,
     args: Array<string>,
-    client: Discord.Client
-  ): undefined;
+    client: Discord.Client,
+    commandArgs: string,
+    Tags: any
+  ): any;
 };
