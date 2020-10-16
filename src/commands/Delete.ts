@@ -9,7 +9,16 @@ module.exports = {
   aliases: ["remove"],
   usage: "<name>",
   cooldown: 1,
-  async execute(message, args, client, commandArgs, Tags, currency) {
+  async execute(
+    message,
+    args,
+    client,
+    commandArgs,
+    Tags,
+    currency,
+    Users,
+    CurrencyShop
+  ) {
     const tagName = commandArgs;
 
     const tag = await Tags.findOne({ where: { name: tagName } });

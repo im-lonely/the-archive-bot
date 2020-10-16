@@ -10,7 +10,16 @@ module.exports = {
   aliases: ["lookup"],
   usage: "<query>",
   cooldown: 1,
-  execute(message, args, client, commandArgs, Tags, currency) {
+  execute(
+    message,
+    args,
+    client,
+    commandArgs,
+    Tags,
+    currency,
+    Users,
+    CurrencyShop
+  ) {
     const search = args.join(" ");
 
     google(search, function (err: any, res: any) {

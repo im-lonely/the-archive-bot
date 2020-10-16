@@ -9,7 +9,16 @@ module.exports = {
   aliases: ["fetch", "gettag", "fetchtag"],
   usage: "<name>",
   cooldown: 1,
-  async execute(message, args, client, commandArgs, Tags, currency) {
+  async execute(
+    message,
+    args,
+    client,
+    commandArgs,
+    Tags,
+    currency,
+    Users,
+    CurrencyShop
+  ) {
     const tagName = commandArgs;
 
     if (!tagName) message.channel.send("No tag was presented!");

@@ -9,7 +9,16 @@ module.exports = {
   aliases: ["create", "newtag", "createtag"],
   usage: "<name> <content>",
   cooldown: 1,
-  async execute(message, args, client, commandArgs, Tags, currency) {
+  async execute(
+    message,
+    args,
+    client,
+    commandArgs,
+    Tags,
+    currency,
+    Users,
+    CurrencyShop
+  ) {
     const splitArgs = commandArgs.split(" ");
     const tagName = splitArgs.shift();
     const tagDescription = splitArgs.join(" ");

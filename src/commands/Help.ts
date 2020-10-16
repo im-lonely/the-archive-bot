@@ -8,7 +8,16 @@ module.exports = {
   guildOnly: false,
   aliases: ["assist"],
   cooldown: 0,
-  execute(message, args, client, commandArgs, Tags, currency) {
+  execute(
+    message,
+    args,
+    client,
+    commandArgs,
+    Tags,
+    currency,
+    Users,
+    CurrencyShop
+  ) {
     const helpEmbed = new Discord.MessageEmbed()
       .setTitle("Help")
       .setFooter("by [Cursors]#9257")
@@ -17,7 +26,7 @@ module.exports = {
       )
       .addField(
         "website",
-        "https://im-lonely.github.io/the-archive-site/",
+        "https://im-lonely.github.io/the-archive-site/#/the-archive-site/",
         true
       )
       .setColor("RANDOM");

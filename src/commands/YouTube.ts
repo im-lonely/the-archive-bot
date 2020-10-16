@@ -11,7 +11,16 @@ module.exports = {
   aliases: ["yt"],
   usage: "<query>",
   cooldown: 1,
-  async execute(message, args, client, commandArgs, Tags, currency) {
+  async execute(
+    message,
+    args,
+    client,
+    commandArgs,
+    Tags,
+    currency,
+    Users,
+    CurrencyShop
+  ) {
     const search = args.join(" ");
 
     const embed = new Discord.MessageEmbed()

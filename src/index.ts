@@ -132,7 +132,7 @@ client.on("message", async (message: Discord.Message) => {
   }
 
   try {
-    command.execute(message, input, client, commandArgs, Tags, currency);
+    command.execute(message, input, client, commandArgs, Tags, currency, Users, CurrencyShop);
   } catch (error) {
     console.error(error);
     message.channel.send(`Oops! Something went wrong with ${command.name}!`);

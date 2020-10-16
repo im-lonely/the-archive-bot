@@ -14,6 +14,8 @@ export type Command = {
     client: Discord.Client,
     commandArgs: string,
     Tags: any,
-    currency: any
+    currency: any,
+    Users: any,
+    CurrencyShop: any
   ): any;
 };

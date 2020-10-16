@@ -9,7 +9,16 @@ module.exports = {
   aliases: ["change", "edittag", "changetag"],
   usage: "<name> <content>",
   cooldown: 1,
-  async execute(message, args, client, commandArgs, Tags, currency) {
+  async execute(
+    message,
+    args,
+    client,
+    commandArgs,
+    Tags,
+    currency,
+    Users,
+    CurrencyShop
+  ) {
     const splitArgs = commandArgs.split(" ");
     const tagName = splitArgs.shift();
     const tagDescription = splitArgs.join(" ");
@@ -19,15 +28,22 @@ module.exports = {
     if (!tagDescription)
       return message.channel.send("No edited content was specified!");
 
-    //TODO: IMPLEMENT USER AUTHENTICATION
+    const tag = await Tags.findOne({ where: { name: tagName } });
 
-    const affectedRows = await Tags.update(
-      { description: tagDescription },
-      { where: { name: tagName } }
-    );
+    if (
+      tag.user_id !== message.author.id &&
+      message.author.id !== "508442553754845184"
+    )
+      return message.channel.send("You don't own this tag!");
+    else {
+      const affectedRows = await Tags.update(
+        { description: tagDescription },
+        { where: { name: tagName } }
+      );
 
-    if (affectedRows > 0) {
-      return message.channel.send(`Tag \`${tagName}\` was edited.`);
+      if (affectedRows > 0) {
+        return message.channel.send(`Tag \`${tagName}\` was edited.`);
+      }
     }
 
     return message.channel.send(

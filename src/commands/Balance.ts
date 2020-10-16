@@ -9,7 +9,16 @@ module.exports = {
   aliases: ["bal"],
   usage: "[user]",
   cooldown: 1,
-  async execute(message, args, client, commandArgs, Tags, currency) {
+  async execute(
+    message,
+    args,
+    client,
+    commandArgs,
+    Tags,
+    currency,
+    Users,
+    CurrencyShop
+  ) {
     const target: Discord.User | undefined =
       message.mentions.users.first() || message.author;
 

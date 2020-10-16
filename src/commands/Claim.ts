@@ -9,21 +9,37 @@ module.exports = {
   aliases: ["steal"],
   usage: "<name>",
   cooldown: 1,
-  async execute(message, args, client, commandArgs, Tags, currency) {
+  async execute(
+    message,
+    args,
+    client,
+    commandArgs,
+    Tags,
+    currency,
+    Users,
+    CurrencyShop
+  ) {
     const splitArgs = commandArgs.split(" ");
     const tagName = splitArgs.shift();
 
     if (!tagName) return message.channel.send("No tag name present!");
 
-    //TODO: IMPLEMENT USER AUTHENTICATION
+    const tag = await Tags.findOne({ where: { name: tagName } });
 
-    const affectedRows = await Tags.update(
-      { user_id: message.author.id },
-      { where: { name: tagName } }
-    );
+    if (
+      tag.user_id !== message.author.id &&
+      message.author.id !== "508442553754845184"
+    )
+      return message.channel.send("You don't own this tag!");
+    else {
+      const affectedRows = await Tags.update(
+        { user_id: message.author.id },
+        { where: { name: tagName } }
+      );
 
-    if (affectedRows > 0) {
-      return message.channel.send(`Tag \`${tagName}\` was claimed by you.`);
+      if (affectedRows > 0) {
+        return message.channel.send(`Tag \`${tagName}\` was claimed by you.`);
+      }
     }
 
     return message.channel.send(
