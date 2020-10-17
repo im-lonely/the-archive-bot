@@ -5,20 +5,9 @@ module.exports = {
   name: "new",
   description: "Create a new tag.",
   argsRequired: true,
-  guildOnly: false,
   aliases: ["create", "newtag", "createtag"],
-  usage: "<name> <content>",
   cooldown: 1,
-  async execute(
-    message,
-    args,
-    client,
-    commandArgs,
-    Tags,
-    currency,
-    Users,
-    CurrencyShop
-  ) {
+  async execute(message, args, client, commandArgs, Tags) {
     const splitArgs = commandArgs.split(" ");
     const tagName = splitArgs.shift();
     const tagDescription = splitArgs.join(" ");

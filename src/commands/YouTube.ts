@@ -7,20 +7,9 @@ module.exports = {
   name: "youtube",
   description: "Search youtube",
   argsRequired: true,
-  guildOnly: false,
   aliases: ["yt"],
-  usage: "<query>",
   cooldown: 1,
-  async execute(
-    message,
-    args,
-    client,
-    commandArgs,
-    Tags,
-    currency,
-    Users,
-    CurrencyShop
-  ) {
+  async execute(message, args, client) {
     const search = args.join(" ");
 
     const embed = new Discord.MessageEmbed()

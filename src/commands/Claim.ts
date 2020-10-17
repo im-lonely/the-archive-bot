@@ -5,20 +5,9 @@ module.exports = {
   name: "claim",
   description: "Claim a tag.",
   argsRequired: true,
-  guildOnly: false,
   aliases: ["steal"],
-  usage: "<name>",
   cooldown: 1,
-  async execute(
-    message,
-    args,
-    client,
-    commandArgs,
-    Tags,
-    currency,
-    Users,
-    CurrencyShop
-  ) {
+  async execute(message, args, client, commandArgs, Tags) {
     const splitArgs = commandArgs.split(" ");
     const tagName = splitArgs.shift();
 

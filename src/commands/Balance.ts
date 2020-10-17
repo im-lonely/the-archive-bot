@@ -1,33 +1,25 @@
 import Discord = require("discord.js");
 import { Command } from "../Command";
+const getUsers = require("../getUsers");
 
 module.exports = {
   name: "balance",
   description: "Check your balance",
   argsRequired: false,
-  guildOnly: false,
   aliases: ["bal"],
-  usage: "[user]",
   cooldown: 1,
-  async execute(
-    message,
-    args,
-    client,
-    commandArgs,
-    Tags,
-    currency,
-    Users,
-    CurrencyShop
-  ) {
-    const target: Discord.User | undefined =
-      message.mentions.users.first() || message.author;
+  async execute(message, args, client, commandArgs, Tags, currency) {
+    const target = getUsers(args, client)[0];
+
+    if (!target) return message.channel.send("User not found!");
 
     const embed = new Discord.MessageEmbed()
       .addField(
         `${target!.username}`,
         `${currency.getBalance(target!.id)} coins`
       )
-      .setThumbnail(target.avatarURL()!);
+      .setThumbnail(target.avatarURL()!)
+      .setColor("RANDOM");
 
     return message.channel.send(embed);
   },

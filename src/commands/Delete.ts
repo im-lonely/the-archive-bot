@@ -5,20 +5,9 @@ module.exports = {
   name: "delete",
   description: "Delete a tag.",
   argsRequired: true,
-  guildOnly: false,
   aliases: ["remove"],
-  usage: "<name>",
   cooldown: 1,
-  async execute(
-    message,
-    args,
-    client,
-    commandArgs,
-    Tags,
-    currency,
-    Users,
-    CurrencyShop
-  ) {
+  async execute(message, args, client, commandArgs, Tags) {
     const tagName = commandArgs;
 
     const tag = await Tags.findOne({ where: { name: tagName } });

@@ -20,9 +20,30 @@ sequelize
   .sync({ force })
   .then(async () => {
     const shop = [
-      CurrencyShop.upsert({ name: "Tea", cost: 10 }),
-      CurrencyShop.upsert({ name: "Coffee", cost: 12 }),
-      CurrencyShop.upsert({ name: "Cake", cost: 20 }),
+      CurrencyShop.upsert({
+        emoji: "🍵 ",
+        name: "Tea",
+        cost: 10,
+        description: "Enjoy some tea with some Brits. *sip*",
+      }),
+      CurrencyShop.upsert({
+        emoji: "☕",
+        name: "Coffee",
+        cost: 12,
+        description: "*Wakey wakey!* Time for work on monday...",
+      }),
+      CurrencyShop.upsert({
+        emoji: "🍰",
+        name: "Cake",
+        cost: 20,
+        description: "It's not your birthday, you can't b- No, don't buy it!",
+      }),
+      CurrencyShop.upsert({
+        emoji: "🍜",
+        name: "Instant Noodles",
+        cost: 15,
+        description: "You can taste it already, can't you?",
+      }),
     ];
     await Promise.all(shop);
     console.log("Database synced");

@@ -4,21 +4,10 @@ import { Command } from "../Command";
 module.exports = {
   name: "edit",
   description: "Edit a tag.",
-  argsRequired: false,
-  guildOnly: false,
+  argsRequired: true,
   aliases: ["change", "edittag", "changetag"],
-  usage: "<name> <content>",
   cooldown: 1,
-  async execute(
-    message,
-    args,
-    client,
-    commandArgs,
-    Tags,
-    currency,
-    Users,
-    CurrencyShop
-  ) {
+  async execute(message, args, client, commandArgs, Tags) {
     const splitArgs = commandArgs.split(" ");
     const tagName = splitArgs.shift();
     const tagDescription = splitArgs.join(" ");

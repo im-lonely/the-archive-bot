@@ -6,20 +6,9 @@ module.exports = {
   name: "google",
   description: "Google something",
   argsRequired: true,
-  guildOnly: false,
   aliases: ["lookup"],
-  usage: "<query>",
   cooldown: 1,
-  execute(
-    message,
-    args,
-    client,
-    commandArgs,
-    Tags,
-    currency,
-    Users,
-    CurrencyShop
-  ) {
+  execute(message, args, client) {
     const search = args.join(" ");
 
     google(search, function (err: any, res: any) {

@@ -4,21 +4,10 @@ import { Command } from "../Command";
 module.exports = {
   name: "get",
   description: "Retrieve a tag.",
-  argsRequired: false,
-  guildOnly: false,
+  argsRequired: true,
   aliases: ["fetch", "gettag", "fetchtag"],
-  usage: "<name>",
   cooldown: 1,
-  async execute(
-    message,
-    args,
-    client,
-    commandArgs,
-    Tags,
-    currency,
-    Users,
-    CurrencyShop
-  ) {
+  async execute(message, args, client, commandArgs, Tags) {
     const tagName = commandArgs;
 
     if (!tagName) message.channel.send("No tag was presented!");

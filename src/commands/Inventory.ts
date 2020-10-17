@@ -1,25 +1,15 @@
 import Discord = require("discord.js");
 import { Command } from "../Command";
+const getUsers = require("../getUsers");
 
 module.exports = {
   name: "inventory",
   description: "Check your inventory",
   argsRequired: false,
-  guildOnly: false,
   aliases: ["inv"],
-  usage: "[user]",
   cooldown: 1,
-  async execute(
-    message,
-    args,
-    client,
-    commandArgs,
-    Tags,
-    currency,
-    Users,
-    CurrencyShop
-  ) {
-    const target = message.mentions.users.first() || message.author;
+  async execute(message, args, client, commandArgs, Tags, currency, Users) {
+    const target = getUsers(args, client)[0];
     const user = await Users.findOne({ where: { user_id: target.id } });
     const items = await user.getItems();
 
@@ -33,9 +23,8 @@ module.exports = {
 
     let desc = "";
 
-    for (const item of items) {
-      desc += `\`${item.amount}\` ${item.item.dataValues.name}\n`;
-    }
+    for (const item of items)
+      desc += `\`${item.amount}\` - ${item.item.dataValues.emoji} ${item.item.dataValues.name}\n`;
 
     embed.setDescription(desc);
 

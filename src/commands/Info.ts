@@ -5,19 +5,9 @@ module.exports = {
   name: "info",
   description: "Get info on a tag",
   argsRequired: true,
-  guildOnly: false,
   aliases: ["taginfo"],
   cooldown: 0,
-  async execute(
-    message,
-    args,
-    client,
-    commandArgs,
-    Tags,
-    currency,
-    Users,
-    CurrencyShop
-  ) {
+  async execute(message, args, client, commandArgs, Tags) {
     const tagName = commandArgs;
 
     const tag = await Tags.findOne({ where: { name: tagName } });

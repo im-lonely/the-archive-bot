@@ -2,13 +2,20 @@ const fs = require("fs");
 import Discord = require("discord.js");
 import { Command } from "./Command";
 import Sequelize = require("sequelize");
-const { prefix, token } = require("./config.json");
+import Keyv = require("keyv");
+const { token } = require("./config.json");
 const client: Discord.Client & any = new Discord.Client();
 client.commands = new Discord.Collection<string, Command>();
 const cooldowns = new Discord.Collection();
 const { Users, CurrencyShop } = require("./dbObjects");
 const { Op } = require("sequelize");
 const currency = new Discord.Collection<any, any>();
+const prefixes: Keyv = new Keyv();
+const globalPrefix = "::";
+
+prefixes.on("error", (err: any) =>
+  console.error("Keyv connection error:", err)
+);
 
 const sequelize = new Sequelize.Sequelize("database", "user", "password", {
   host: "localhost",
@@ -64,79 +71,96 @@ for (const file of commandFiles) {
 client.once("ready", async () => {
   console.log("Ready!");
   client.user.setStatus("online");
-  client.user.setActivity(` for ${prefix}help`, { type: "WATCHING" });
+  client.user.setActivity(` for ${globalPrefix}help`, { type: "WATCHING" });
   const storedBalances = await Users.findAll();
   storedBalances.forEach((b: { user_id: any }) => currency.set(b.user_id, b));
   Tags.sync();
 });
 
 client.on("message", async (message: Discord.Message) => {
-  if (!message.content.startsWith(prefix) || message.author.bot) return;
+  if (message.author.bot) return;
 
-  //@ts-ignore
-  currency.add(message.author.id, 1);
+  let args;
 
-  const input: Array<string> = message.content
-    .slice(prefix.length)
-    .trim()
-    .split(/ +/);
+  if (message.guild) {
+    let prefix;
 
-  const commandName = input.shift()!.toLowerCase();
-
-  const commandArgs = input.join(" ");
-
-  const command: Command =
-    client.commands.get(commandName) ||
-    client.commands.find(
-      (cmd: Command) => cmd.aliases && cmd.aliases.includes(commandName)
-    );
-
-  if (!command) return;
-
-  if (command.argsRequired && !input.length) {
-    let reply = `No arguments were provided!`;
-
-    if (command.usage) {
-      reply += `\nUsage: \`${prefix}${command.name} ${command.usage}\``;
+    if (message.content.startsWith(globalPrefix)) {
+      prefix = globalPrefix;
+    } else {
+      const guildPrefix = await prefixes.get(message.guild.id);
+      if (message.content.startsWith(guildPrefix)) prefix = guildPrefix;
     }
 
-    return message.channel.send(reply);
-  }
+    if (!prefix) return;
 
-  if (command.guildOnly && message.channel.type === "dm") {
-    return message.channel.send(`${command.name} can only be used in a guild!`);
-  }
+    args = message.content.slice(prefix.length).trim().split(/\s+/);
 
-  if (!cooldowns.has(command.name)) {
-    cooldowns.set(command.name, new Discord.Collection());
-  }
+    //@ts-ignore
+    currency.add(message.author.id, 1);
 
-  const now: number = Date.now();
-  const timestamps: any = cooldowns.get(command.name);
-  const cooldownAmount: number = (command.cooldown || 0) * 1000;
+    if (!message.content.startsWith(prefix)) return;
 
-  if (timestamps.has(message.author.id)) {
-    const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
+    const commandName = args.shift()!.toLowerCase();
 
-    if (now < expirationTime) {
-      const timeLeft = (expirationTime - now) / 1000;
-      return message.channel.send(
-        `Please wait ${timeLeft.toFixed(1)} more second(s) before using \`${
-          command.name
-        }\`.`
+    const commandArgs = args.join(" ");
+
+    const command: Command =
+      client.commands.get(commandName) ||
+      client.commands.find(
+        (cmd: Command) => cmd.aliases && cmd.aliases.includes(commandName)
       );
-    }
-  } else {
-    timestamps.set(message.author.id, now);
-    setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
-  }
 
-  try {
-    command.execute(message, input, client, commandArgs, Tags, currency, Users, CurrencyShop);
-  } catch (error) {
-    console.error(error);
-    message.channel.send(`Oops! Something went wrong with ${command.name}!`);
-  }
+    if (!command) return;
+
+    if (command.argsRequired && !args.length) {
+      let reply = `No arguments were provided!`;
+
+      return message.channel.send(reply);
+    }
+
+    if (!cooldowns.has(command.name)) {
+      cooldowns.set(command.name, new Discord.Collection());
+    }
+
+    const now: number = Date.now();
+    const timestamps: any = cooldowns.get(command.name);
+    const cooldownAmount: number = (command.cooldown || 0) * 1000;
+
+    if (timestamps.has(message.author.id)) {
+      const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
+
+      if (now < expirationTime) {
+        const timeLeft = (expirationTime - now) / 1000;
+        return message.channel.send(
+          `Please wait ${timeLeft.toFixed(1)} more second(s) before using \`${
+            command.name
+          }\`.`
+        );
+      }
+    } else {
+      timestamps.set(message.author.id, now);
+      setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
+    }
+
+    try {
+      command.execute(
+        message,
+        args,
+        client,
+        commandArgs,
+        Tags,
+        currency,
+        Users,
+        CurrencyShop,
+        prefixes,
+        globalPrefix
+      );
+    } catch (error) {
+      console.error(error);
+      message.channel.send(`Oops! Something went wrong with ${command.name}!`);
+    }
+  } else message.channel.send("I am guild only!");
 });
 
 client.login(token);

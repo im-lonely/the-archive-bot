@@ -5,10 +5,8 @@ import { Command } from "../Command";
 module.exports = {
   name: "buy",
   description: "Buy something",
-  argsRequired: false,
-  guildOnly: false,
+  argsRequired: true,
   aliases: ["purchase"],
-  usage: "[user]",
   cooldown: 1,
   async execute(
     message,

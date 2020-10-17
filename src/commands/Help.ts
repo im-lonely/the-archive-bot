@@ -5,19 +5,9 @@ module.exports = {
   name: "help",
   description: "Help yourself...",
   argsRequired: false,
-  guildOnly: false,
   aliases: ["assist"],
   cooldown: 0,
-  execute(
-    message,
-    args,
-    client,
-    commandArgs,
-    Tags,
-    currency,
-    Users,
-    CurrencyShop
-  ) {
+  execute(message, args, client, CurrencyShop) {
     const helpEmbed = new Discord.MessageEmbed()
       .setTitle("Help")
       .setFooter("by [Cursors]#9257")
@@ -26,8 +16,11 @@ module.exports = {
       )
       .addField(
         "website",
-        "https://im-lonely.github.io/the-archive-site/#/the-archive-site/",
-        true
+        "https://im-lonely.github.io/the-archive-site/#/the-archive-site/"
+      )
+      .addField(
+        "docs",
+        "https://im-lonely.github.io/the-archive-site/#/the-archive-site/docs"
       )
       .setColor("RANDOM");
     message.channel.send(helpEmbed);

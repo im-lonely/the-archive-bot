@@ -5,26 +5,17 @@ module.exports = {
   name: "list",
   description: "List all tags.",
   argsRequired: false,
-  guildOnly: false,
   aliases: ["all"],
   cooldown: 1,
-  async execute(
-    message,
-    args,
-    client,
-    commandArgs,
-    Tags,
-    currency,
-    Users,
-    CurrencyShop
-  ) {
+  async execute(message, args, client, commandArgs, Tags) {
     const tagList = await Tags.findAll({ attributes: ["name"] });
     const listEmbed = new Discord.MessageEmbed();
     let fullList = "";
     for (let i = 0; i < tagList.length; i++)
-      fullList += `\`${i}\`: ${tagList[i].name}\n`;
+      fullList += `\`${i}\` - ${tagList[i].name}\n`;
     listEmbed.setDescription(fullList);
     listEmbed.setColor("RANDOM");
+    if (tagList.length === 0) return message.channel.send("There are no tags.");
     return message.channel.send(listEmbed);
   },
 } as Command;
