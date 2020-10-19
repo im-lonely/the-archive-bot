@@ -6,7 +6,6 @@ module.exports = {
   description: "List all tags.",
   argsRequired: false,
   aliases: ["all"],
-  cooldown: 1,
   async execute(message, args, client, commandArgs, Tags) {
     const tagList = await Tags.findAll({ attributes: ["name"] });
     const listEmbed = new Discord.MessageEmbed();

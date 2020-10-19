@@ -6,7 +6,7 @@ module.exports = {
   name: "urban",
   description: "Look stuff up on the urban dictionary",
   argsRequired: true,
-  cooldown: 1,
+
   async execute(message, args, client) {
     const search = args.join(" ");
 

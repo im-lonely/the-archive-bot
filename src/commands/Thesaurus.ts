@@ -6,7 +6,7 @@ module.exports = {
   name: "thesaurus",
   description: "Look stuff up on the thesaurus",
   argsRequired: true,
-  cooldown: 1,
+
   aliases: ["synonym", "syn"],
   async execute(message, args, client) {
     const res: Response = await fetch(

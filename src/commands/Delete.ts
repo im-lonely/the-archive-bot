@@ -6,7 +6,6 @@ module.exports = {
   description: "Delete a tag.",
   argsRequired: true,
   aliases: ["remove"],
-  cooldown: 1,
   async execute(message, args, client, commandArgs, Tags) {
     const tagName = commandArgs;
 

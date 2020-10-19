@@ -6,7 +6,6 @@ module.exports = {
   description: "Claim a tag.",
   argsRequired: true,
   aliases: ["steal"],
-  cooldown: 1,
   async execute(message, args, client, commandArgs, Tags) {
     const splitArgs = commandArgs.split(" ");
     const tagName = splitArgs.shift();

@@ -1,5 +1,4 @@
 import Sequelize = require("sequelize");
-
 const sequelize = new Sequelize.Sequelize("database", "username", "password", {
   host: "localhost",
   dialect: "sqlite",
@@ -8,11 +7,11 @@ const sequelize = new Sequelize.Sequelize("database", "username", "password", {
 });
 
 const Users = require("./models/Users")(sequelize, Sequelize.DataTypes);
-
 const CurrencyShop = require("./models/CurrencyShop")(
   sequelize,
   Sequelize.DataTypes
 );
+
 const UserItems = require("./models/UserItems")(sequelize, Sequelize.DataTypes);
 
 UserItems.belongsTo(CurrencyShop, { foreignKey: "item_id", as: "item" });
@@ -21,12 +20,10 @@ Users.prototype.addItem = async function (item: any) {
   const userItem = await UserItems.findOne({
     where: { user_id: this.user_id, item_id: item.id },
   });
-
   if (userItem) {
     userItem.amount += 1;
     return userItem.save();
   }
-
   return UserItems.create({
     user_id: this.user_id,
     item_id: item.id,
@@ -40,5 +37,4 @@ Users.prototype.getItems = function () {
     include: ["item"],
   });
 };
-
 module.exports = { Users, CurrencyShop, UserItems };

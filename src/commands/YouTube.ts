@@ -8,7 +8,7 @@ module.exports = {
   description: "Search youtube",
   argsRequired: true,
   aliases: ["yt"],
-  cooldown: 1,
+
   async execute(message, args, client) {
     const search = args.join(" ");
 

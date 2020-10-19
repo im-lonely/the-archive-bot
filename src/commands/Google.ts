@@ -7,7 +7,6 @@ module.exports = {
   description: "Google something",
   argsRequired: true,
   aliases: ["lookup"],
-  cooldown: 1,
   execute(message, args, client) {
     const search = args.join(" ");
 

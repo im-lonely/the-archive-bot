@@ -5,7 +5,6 @@ module.exports = {
   name: "prefix",
   description: "Check or change the prefix",
   argsRequired: false,
-  cooldown: 1,
   async execute(
     message,
     args,

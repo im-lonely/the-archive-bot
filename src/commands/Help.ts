@@ -6,7 +6,6 @@ module.exports = {
   description: "Help yourself...",
   argsRequired: false,
   aliases: ["assist"],
-  cooldown: 0,
   execute(message, args, client, CurrencyShop) {
     const helpEmbed = new Discord.MessageEmbed()
       .setTitle("Help")

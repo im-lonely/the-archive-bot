@@ -7,7 +7,6 @@ module.exports = {
   description: "Look stuff up on the dictionary",
   argsRequired: true,
   aliases: ["dict"],
-  cooldown: 1,
   async execute(message, args, client) {
     const res: Response = await fetch(
       `https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(

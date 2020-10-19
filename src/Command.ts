@@ -5,7 +5,6 @@ export type Command = {
   description: string;
   argsRequired: boolean;
   aliases?: Array<string>;
-  cooldown: number;
   execute(
     message: Discord.Message,
     args: Array<string>,
@@ -16,6 +15,7 @@ export type Command = {
     Users?: any,
     CurrencyShop?: any,
     prefixes?: any,
-    globalPrefix?: string
+    globalPrefix?: string,
+    modlogs?: any
   ): any;
 };

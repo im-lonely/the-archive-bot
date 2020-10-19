@@ -1,12 +1,7 @@
 {
   "extends": "eslint:recommended",
-  "env": {
-    "node": true,
-    "es6": true
-  },
-  "parserOptions": {
-    "ecmaVersion": 2019
-  },
+  "env": { "node": true, "es6": true },
+  "parserOptions": { "ecmaVersion": 2019 },
   "rules": {
     "brace-style": ["error", "stroustrup", { "allowSingleLine": true }],
     "curly": ["error", "multi-line", "consistent"],

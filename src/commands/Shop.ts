@@ -5,7 +5,6 @@ module.exports = {
   name: "shop",
   description: "Buy something",
   argsRequired: false,
-  cooldown: 1,
   async execute(
     message,
     args,

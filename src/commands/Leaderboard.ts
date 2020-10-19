@@ -6,7 +6,6 @@ module.exports = {
   description: "Check the leaderboard",
   argsRequired: false,
   aliases: ["top"],
-  cooldown: 1,
   async execute(message, args, client, commandArgs, Tags, currency) {
     const people = currency
       .sort((a: any, b: any) => b.balance - a.balance)

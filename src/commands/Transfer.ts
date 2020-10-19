@@ -1,13 +1,11 @@
 import Discord = require("discord.js");
 import { Command } from "../Command";
-const getUsers = require("../getUsers");
 
 module.exports = {
   name: "transfer",
   description: "Transfer some coins.",
   argsRequired: true,
   aliases: ["give"],
-  cooldown: 1,
   async execute(message, args, client, commandArgs, Tags, currency) {
     const currentAmount = currency.getBalance(message.author.id);
 

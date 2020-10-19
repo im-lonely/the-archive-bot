@@ -7,7 +7,6 @@ module.exports = {
   description: "Buy something",
   argsRequired: true,
   aliases: ["purchase"],
-  cooldown: 1,
   async execute(
     message,
     args,
