@@ -1,11 +1,12 @@
 {
   "name": "the-archive",
-  "version": "0.1.2",
+  "version": "0.1.1",
   "description": "bot to practice typescript",
   "main": "index.js",
   "scripts": {
     "dev": "nodemon ./src/index.ts",
     "dbinit": "ts-node src/dbInit.ts",
+    "update": "./update.sh",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
