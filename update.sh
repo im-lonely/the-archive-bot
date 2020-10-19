@@ -2,7 +2,7 @@ git add .
 
 cd src
 
-git commit -m "your message" 2>&1 | cat >> log &
+git commit -m "your message" 2>&1 | cat >> CHANGELOG.md &
 
 cd ..
 
