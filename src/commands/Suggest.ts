@@ -8,23 +8,28 @@ module.exports = {
   argsRequired: true,
   cooldown: 0,
   async execute(message, args) {
-    let count = 0;
-    fs.createReadStream(process.argv[2]).on("data", function (chunk: any) {
-      for (let i = 0; i < chunk.length; ++i) if (chunk[i] == 10) count++;
-    });
+    let error;
 
-    if (count > 100)
-      return message.channel.send(
-        "Too many suggestions! Wait until the bot is updated!"
-      );
+    const suggestion = args.join(" ");
 
     fs.writeFile(
-      __dirname + "/../CHANGELOG.md",
-      args.join(" ") + "\n",
+      __dirname + "/../CHANGELOG.txt",
+      `${suggestion}\nby ${message.author.tag}\n\n`,
+      { flag: "a" },
       (err: any) => {
         if (err) console.log(err);
+        error = err;
       }
     );
-    return message.channel.send("Your suggestion was added!");
+
+    if (error) return message.channel.send("Something went wrong!");
+
+    return message.channel.send(
+      new Discord.MessageEmbed()
+        .setFooter(message.author.tag)
+        .setColor("RANDOM")
+        .setDescription("New suggestion added successfully!")
+        .addField("Suggestion", `\`${suggestion}\``)
+    );
   },
 } as Command;

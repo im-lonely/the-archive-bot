@@ -53,7 +53,7 @@ module.exports = {
             //@ts-ignore
             .send(
               new Discord.MessageEmbed()
-                .setTitle(`:put_litter_in_its_place: Cleanse`)
+                .setTitle(`:wastebasket: Cleansed`)
                 .setDescription(
                   `**${message.author.username}** cleaned ${amount} messages in <#${message.channel.id}>`
                 )
