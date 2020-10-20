@@ -1,6 +1,6 @@
 {
   "name": "the-archive",
-  "version": "0.1.13",
+  "version": "0.2.3",
   "description": "bot to practice typescript",
   "main": "index.js",
   "scripts": {
@@ -11,15 +11,20 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ConciseFunctions/the-archive-bot.git"
+    "url": "git+https://github.com/im-lonely/the-archive-bot.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "discord.js",
+    "the-archive-bot",
+    "the archive",
+    "discord bot"
+  ],
+  "author": "im-lonely",
+  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ConciseFunctions/the-archive-bot/issues"
+    "url": "https://github.com/im-lonely/the-archive-bot/issues"
   },
-  "homepage": "https://github.com/ConciseFunctions/the-archive-bot#readme",
+  "homepage": "https://github.com/im-lonely/the-archive-bot#readme",
   "dependencies": {
     "discord.js": "^12.3.1",
     "eslint": "^7.11.0",
