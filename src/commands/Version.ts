@@ -1,5 +1,5 @@
 import { Command } from "../Command";
-const pjson = require("./package.json");
+const pjson = require("../../package.json");
 
 module.exports = {
   name: "version",

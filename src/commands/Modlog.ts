@@ -3,7 +3,7 @@ import { Command } from "../Command";
 module.exports = {
   name: "modlog",
   description: "Set the modlog",
-  argsRequired: true,
+  argsRequired: false,
   async execute(
     message,
     args,
