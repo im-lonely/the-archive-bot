@@ -1,6 +1,6 @@
 {
   "name": "the-archive",
-  "version": "0.1.12",
+  "version": "0.1.13",
   "description": "bot to practice typescript",
   "main": "index.js",
   "scripts": {
