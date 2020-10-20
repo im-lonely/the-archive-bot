@@ -75,7 +75,7 @@ module.exports = {
             //@ts-ignore
             .send(
               new Discord.MessageEmbed()
-                .setTitle(`Unban`)
+                .setTitle(`:wrench: Unban`)
                 .setDescription(
                   `**${target.tag}** was unbanned by ${message.author.username}`
                 )

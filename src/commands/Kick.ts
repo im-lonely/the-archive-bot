@@ -77,7 +77,7 @@ module.exports = {
             //@ts-ignore
             .send(
               new Discord.MessageEmbed()
-                .setTitle(`Kick`)
+                .setTitle(`:boot: Kick`)
                 .setDescription(
                   `**${target.tag}** was Kicked by ${message.author.username}`
                 )

@@ -80,7 +80,7 @@ module.exports = {
             //@ts-ignore
             .send(
               new Discord.MessageEmbed()
-                .setTitle(`Ban`)
+                .setTitle(`:hammer: Ban`)
                 .setDescription(
                   `**${target.tag}** was banned by ${message.author.username}`
                 )

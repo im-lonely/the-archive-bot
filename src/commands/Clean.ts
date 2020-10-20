@@ -19,6 +19,7 @@ module.exports = {
     globalPrefix,
     modlogs
   ) {
+    if (message.channel.type === "dm") return;
     if (message.member?.hasPermission("MANAGE_MESSAGES")) {
       const amount = Number(args[0]);
 
@@ -28,13 +29,15 @@ module.exports = {
       if (amount < 2)
         return message.channel.send("Enter an amount greater than 1");
 
+      const last100 = Math.floor(amount / 100);
       const leftOver = amount % 100;
 
-      for (let i = 0; i < amount; i += 100) {
-        //!DELETE
-      }
+      for (let i = 0; i < last100; i += 100)
+        await message.channel.bulkDelete(100);
 
-      //!DELETE
+      await message.channel.bulkDelete(leftOver);
+
+      message.channel.send(`I have deleted ${amount} messages!`);
 
       const reason = args.slice(1).join(" ");
 
@@ -50,7 +53,7 @@ module.exports = {
             //@ts-ignore
             .send(
               new Discord.MessageEmbed()
-                .setTitle(`Clean`)
+                .setTitle(`:put_litter_in_its_place: Cleanse`)
                 .setDescription(
                   `**${message.author.username}** cleaned ${amount} messages in <#${message.channel.id}>`
                 )

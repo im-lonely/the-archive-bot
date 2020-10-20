@@ -65,7 +65,7 @@ module.exports = {
             //@ts-ignore
             .send(
               new Discord.MessageEmbed()
-                .setTitle(`Tempban`)
+                .setTitle(`:timer: Tempban`)
                 .setDescription(
                   `**${target.tag}** was tempbanned by ${message.author.username} for ${days} days`
                 )
