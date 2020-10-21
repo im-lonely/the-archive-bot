@@ -11,6 +11,7 @@ const CurrencyShop = require("./models/CurrencyShop")(
   sequelize,
   Sequelize.DataTypes
 );
+
 require("./models/Users")(sequelize, Sequelize.DataTypes);
 require("./models/UserItems")(sequelize, Sequelize.DataTypes);
 
@@ -21,7 +22,7 @@ sequelize
   .then(async () => {
     const shop = [
       CurrencyShop.upsert({
-        emoji: "🍵 ",
+        emoji: "🍵",
         name: "Tea",
         cost: 10,
         description: "Enjoy some tea with some Brits. *sip*",

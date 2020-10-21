@@ -75,10 +75,12 @@ client.on("error", (err: any) => {
   process.exit(0);
 });
 
+client.on("guildCreate", async (guild: Discord.Guild) => {});
+
 client.once("ready", async () => {
   console.log("Ready!");
-  client.user.setStatus("online");
-  client.user.setActivity(` for ${globalPrefix}help`, { type: "WATCHING" });
+  client.user!.setStatus("online");
+  client.user!.setActivity(` for ${globalPrefix}help`, { type: "WATCHING" });
   const storedBalances = await Users.findAll();
   storedBalances.forEach((b: { user_id: any }) => currency.set(b.user_id, b));
   Tags.sync();
@@ -93,7 +95,7 @@ client.on("message", async (message: Discord.Message) => {
   });
 
   if (message.author.bot) return;
-  if (message.author.id === client.user.id) return;
+  if (message.author.id === client.user!.id) return;
 
   let args;
 

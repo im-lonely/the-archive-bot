@@ -1,4 +1,5 @@
 import Sequelize = require("sequelize");
+
 const sequelize = new Sequelize.Sequelize("database", "username", "password", {
   host: "localhost",
   dialect: "sqlite",
@@ -37,4 +38,5 @@ Users.prototype.getItems = function () {
     include: ["item"],
   });
 };
+
 module.exports = { Users, CurrencyShop, UserItems };

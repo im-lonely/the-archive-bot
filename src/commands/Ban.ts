@@ -74,10 +74,9 @@ module.exports = {
         try {
           //@ts-ignore
           client.guilds.cache
-            //@ts-ignore
-            .get(modlog.guild)
+            .get(modlog.guild.id)
             ?.channels.cache.get(modlog.id)
-            //@ts-ignore
+            // @ts-ignore
             .send(
               new Discord.MessageEmbed()
                 .setTitle(`:hammer: Ban`)
