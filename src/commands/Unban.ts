@@ -27,8 +27,12 @@ module.exports = {
 
       const reason = args.slice(1).join(" ");
 
-      message.guild?.members
-        .unban(target.id)
+      
+      message.guild.fetchBans().then((bans) => {
+        if(!bans.size) return;
+        const bUser = bans.find(b => b.user.id == target.id);
+        if(!bUser) return;
+        message.guild.members.unban(bUser.user);
         .then(() => {
           message.channel.send(
             new Discord.MessageEmbed()
